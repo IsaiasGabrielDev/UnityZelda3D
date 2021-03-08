@@ -76,7 +76,7 @@ IEnumerator Died()
 
 private void OnTriggerEnter(Collider other) 
 {
- if(other.gameObject.tag == "Player")
+ if(other.gameObject.tag == "Player") //Muda o estado da IA de Idle para Alerta caso colida com o inimigo.
 {
     isPlayerVisible = true;
     if(state == enemyState.IDLE || state == enemyState.PATROL)
@@ -84,6 +84,16 @@ private void OnTriggerEnter(Collider other)
     ChangeState(enemyState.ALERT);        
     }        
 }
+    if(other.gameObject.tag == "Enemy") //Muda o estado da IA se ela colidir no campo de visão com outra.
+{
+    
+    if(state == enemyState.PATROL)
+    {
+    ChangeState(enemyState.IDLE);        
+    }        
+}
+
+
 }
 private void OnTriggerExit(Collider other) 
 {
