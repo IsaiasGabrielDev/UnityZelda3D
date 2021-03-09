@@ -57,18 +57,18 @@ public class SlimeIA : MonoBehaviour
         
     
 
-IEnumerator Died()
+IEnumerator Died() //corrotina de morte.
 {
     
     destination = transform.position;
-    agent.destination = destination;
+    agent.destination = destination; //trava o andamento da IA.
     yield return new WaitForSeconds(2f);
 
-    if(_GameManager.Perc(_GameManager.percDrop))
+    if(_GameManager.Perc(_GameManager.percDrop)) //pega o percentual de chance de drop.
     {
-        Instantiate(_GameManager.gemPrefab, transform.position, _GameManager.gemPrefab.transform.rotation);
+        Instantiate(_GameManager.gemPrefab, transform.position, _GameManager.gemPrefab.transform.rotation); //Summona um cristal no local de morte.
     }
-    Retirardacena.SetActive(false);
+    Retirardacena.SetActive(false); //retira o Slime da cena. 
 
 
     
@@ -95,7 +95,7 @@ private void OnTriggerEnter(Collider other)
 
 
 }
-private void OnTriggerExit(Collider other) 
+private void OnTriggerExit(Collider other)  //caso saia da colisão seta a variavel de está visivel para falso.
 {
     if(other.gameObject.tag == "Player")
 {
@@ -104,7 +104,7 @@ private void OnTriggerExit(Collider other)
 }
     
     #region Meus Métodos
-    void GetHit(int amount)
+    void GetHit(int amount) //Metodo de tomar dano.
     {
         if(isDied == true){return;}
         HP -= amount;
@@ -117,10 +117,11 @@ private void OnTriggerExit(Collider other)
         }
         else
         {
-            ChangeState(enemyState.DIED);
-            anim.SetTrigger("Die");
+            ChangeState(enemyState.DIED); // se HP for igual a zero seta como o status como morto.
+            anim.SetTrigger("Die"); //inicia animaçao de morte
+        
             
-            StartCoroutine("Died");
+            StartCoroutine("Died"); //inicia corrotina de morte.
 
 
 
@@ -128,7 +129,7 @@ private void OnTriggerExit(Collider other)
         
     }
 
-    void StateManager()
+    void StateManager() //Gerenciador de status do bot status atual.
     {
         switch(state){
             
@@ -148,7 +149,7 @@ private void OnTriggerExit(Collider other)
                 {
                 Attackslime();
                 }
-            }
+            } 
             break;
 
             case enemyState.FURY:
@@ -173,7 +174,7 @@ private void OnTriggerExit(Collider other)
         }
 
     }
-    void ChangeState(enemyState newState)
+    void ChangeState(enemyState newState) ////Gerenciador de status da IA, muda o status dela.
     {
         StopAllCoroutines(); // ENCERRA TODAS A CORROTINAS
         
@@ -235,7 +236,7 @@ private void OnTriggerExit(Collider other)
     }
     IEnumerator IDLE(){
         yield return new WaitForSeconds(_GameManager.slideWaitTime);
-        Staystill(50); //50%
+        Staystill(50); //50% porcentagem de chance de se manter em IDLE
        
     }
 
@@ -253,13 +254,13 @@ private void OnTriggerExit(Collider other)
             }
             else
             {
-            Staystill(10); //10% DE CHANCE
+            Staystill(25); //10% DE CHANCE
             }
                 
             
         }
 
-    IEnumerator ATTACKDELLAY()
+    IEnumerator ATTACKDELLAY() //Delay de atack
     {
         yield return new WaitForSeconds(_GameManager.slimeAttackDelay);
         isAttack = false;
@@ -293,12 +294,12 @@ void Staystill(int yes) //sorteio de chance.
         }
     }
 
-    void AttackisDone()
+    void AttackisDone() //quando a animação de attack acabar, starta a corrotina de delay.
 {
    
     StartCoroutine("ATTACKDELLAY");
 }
-void LookAt()
+void LookAt() //Função de ficar olhando para o player.
 {
     
     Vector3 Lookdirection =  (_GameManager.player.position - transform.position).normalized;
