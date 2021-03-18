@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 
@@ -29,6 +30,10 @@ public class PlayerController2 : MonoBehaviour
     public int amountDmg; //Dano causado do Player
     private const float GRAVIDADE = -9.81f; //Gravidade manual
     public Vector3 velocity; //velocidade Manual
+
+    public GameObject heartHP3;
+    public GameObject heartHP2;
+    public GameObject heartHP1;
 
     
 
@@ -130,12 +135,21 @@ void GetHit(int amount) //Função de tomar dano e morte do jogador
     
     if(HP>0){
         anim.SetTrigger("Hit");
+        if(HP == 2)
+        {
+            heartHP3.SetActive(false);
+        } else if (HP==1)
+        {
+            heartHP2.SetActive(false);
+        }
+
         
     }
     else
     {   
        velocity.y += GRAVIDADE * Time.deltaTime;
         _GameManager.ChangeGameState(GameState.DIE);
+        heartHP1.SetActive(false);
 
         
         anim.SetTrigger("Die");

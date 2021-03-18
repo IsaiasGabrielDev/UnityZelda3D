@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         rainModule = rainPaticle.emission;
-        txtgem.text = "Gems:" + gems.ToString();
+        txtgem.text = "x" + gems.ToString();
     }
     
     public void OnoffRain(bool isRain)
@@ -125,7 +125,7 @@ public class GameManager : MonoBehaviour
     public void SetGems(int amount)
     {
         gems += amount;
-        txtgem.text = "Gems: " + gems.ToString();
+        txtgem.text = "x" + gems.ToString();
         
     }
 
